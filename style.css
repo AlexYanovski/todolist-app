@@ -6,6 +6,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
+  overflow: hidden;
 }
 
 #block {
@@ -182,8 +183,16 @@ li.done:last-child {
 }
 
 @media screen and (max-width: 590px) {
+  body {
+    display: flex;
+    justify-content: center;
+    align-items:flex-start;
+    padding: 20px 0px 20px 0px;
+    overflow: hidden;
+  }
   #block {    
     max-width: 90%;
+    max-height: 575px;
   }
   li{
    max-width: 65%;
