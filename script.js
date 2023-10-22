@@ -2,16 +2,16 @@
 const block = document.getElementById('block');
 const inputForm = document.getElementById('input_form');
 const addBtn = document.getElementById('btn_add');
-const pendingTasks = document.getElementById('sort_tasks');
-const doneTask = document.querySelectorAll('.done');
-const listContainer = document.getElementById('task_list');
 const originalPlaceholder = inputForm.placeholder;
+let pendingTasks = document.getElementById('sort_tasks');
+let doneTask = document.querySelectorAll('.done');
+let listContainer = document.getElementById('task_list');
 
 let deleteTask, editTask, sortListAll, sortListPending, sortListDone;
 
 function checkAndAddSelectedClass() {
   const listContainer = document.getElementById('task_list');
-  const taskSortAll = document.getElementById('task_sort_all');
+  let taskSortAll = document.getElementById('task_sort_all');
 
   if (listContainer.querySelectorAll('li').length > 0) {
     taskSortAll.classList.add('selected');
@@ -57,6 +57,7 @@ function addTask() {
     inputForm.value = '';
     document.getElementById('task_sort_all').classList.add('selected');
     saveData();
+    checkAndAddSelectedClass();
   }
 }
 
@@ -65,13 +66,31 @@ inputForm.addEventListener('blur', function () {
   inputForm.placeholder = originalPlaceholder;
 });
 
+function checkAndAddSelectedClass() {
+  const listContainer = document.getElementById('task_list');
+  const submitForm = document.getElementById('sumbit_form');
+  const sortTasks = document.getElementById('sort_tasks');
+
+  if (listContainer.querySelectorAll('li').length > 0) {
+    sortTasks.classList.add('window_task');
+    submitForm.classList.add('sub_form');
+    sortTasks.style.display = 'flex';
+    submitForm.style.paddingBottom = '30px';
+  } else {
+    sortTasks.classList.remove('window_task');
+    submitForm.classList.remove('sub_form');
+    sortTasks.style.display = 'none';
+    submitForm.style.paddingBottom = '0px';
+  }
+}
+
 //!EventListener Complete task
-const toggleDone = listContainer.addEventListener('click', function (e) {
+let toggleDone = listContainer.addEventListener('click', function (e) {
   if (e.target.tagName === 'LI') {
     e.target.classList.toggle('done');
     e.target.classList.toggle('pending');
 
-    const editTask = e.target.querySelector('.edit-task');
+    let editTask = e.target.querySelector('.edit-task');
     if (e.target.classList.contains('done')) {
       editTask.style.backgroundColor = 'rgb(41, 138, 41)';
       editTask.style.color = 'black';
@@ -86,19 +105,20 @@ const toggleDone = listContainer.addEventListener('click', function (e) {
 });
 
 //!EventListener Delete task
-const removeItem = listContainer.addEventListener('click', function (e) {
+let removeItem = listContainer.addEventListener('click', function (e) {
   if (e.target.classList.contains('delete-task')) {
     let liToRemove = e.target.closest('li');
     if (liToRemove) {
       liToRemove.remove();
       saveData();
 
-      const taskSortAll = document.getElementById('task_sort_all');
+      let taskSortAll = document.getElementById('task_sort_all');
       if (listContainer.querySelectorAll('li').length === 0) {
         taskSortAll.classList.remove('selected');
       }
     }
   }
+  checkAndAddSelectedClass();
 });
 
 //!EventListener Edit task
@@ -177,9 +197,9 @@ listContainer.addEventListener('click', toggleEditHandler);
 //////////////////////! EventListener Sort Task List
 
 ////////////////////////////////////////////////////*SORT ALL
-const sortAll = document.getElementById('task_sort_all');
+let sortAll = document.getElementById('task_sort_all');
 sortAll.addEventListener('click', function () {
-  const allItems = document.querySelectorAll('li');
+  let allItems = document.querySelectorAll('li');
   allItems.forEach(item => {
     item.style.display = 'flex';
   });
@@ -187,10 +207,10 @@ sortAll.addEventListener('click', function () {
 });
 
 ////////////////////////////////////////////////////*SORT PENDING
-const sortPending = document.getElementById('task_sort_pending');
+let sortPending = document.getElementById('task_sort_pending');
 
 sortPending.addEventListener('click', function () {
-  const pendingItems = document.querySelectorAll('.pending');
+  let pendingItems = document.querySelectorAll('.pending');
 
   pendingItems.forEach(item => {
     item.style.display = 'flex';
@@ -200,18 +220,18 @@ sortPending.addEventListener('click', function () {
 
 // Функция для прячущая все элементы с классом '.done'
 function hideDoneTasks() {
-  const doneTasks = document.querySelectorAll('.done');
+  let doneTasks = document.querySelectorAll('.done');
   doneTasks.forEach(task => {
     task.style.display = 'none';
   });
 }
 
 ////////////////////////////////////////////////////*SORT COMPLETED
-const sortCompleted = document.getElementById('task_sort_completed');
+let sortCompleted = document.getElementById('task_sort_completed');
 
 sortCompleted.addEventListener('click', function () {
   // Получаем все элементы с классами '.done' и '.pending'
-  const doneItems = document.querySelectorAll('.done');
+  let doneItems = document.querySelectorAll('.done');
 
   // Прячем все элементы с классом '.pending'
   hidePendingTasks();
@@ -224,17 +244,17 @@ sortCompleted.addEventListener('click', function () {
 
 // Функция для прячущая все элементы с классом '.pending'
 function hidePendingTasks() {
-  const pendingTasks = document.querySelectorAll('.pending');
+  let pendingTasks = document.querySelectorAll('.pending');
   pendingTasks.forEach(task => {
     task.style.display = 'none';
   });
 }
 
 ////////////////////////////////////////////////////*SORT CLEAR ALL
-const sortClearAll = document.getElementById('task_sort_clear');
+let sortClearAll = document.getElementById('task_sort_clear');
 
 sortClearAll.addEventListener('click', function () {
-  const allItemsClear = document.querySelectorAll('li');
+  let allItemsClear = document.querySelectorAll('li');
   allItemsClear.forEach(item => {
     item.remove('li');
   });
@@ -242,7 +262,7 @@ sortClearAll.addEventListener('click', function () {
 });
 
 ////////////////////////////////////////////////////*UnderLine
-const sortSpans = document.querySelectorAll('#sort_tasks span');
+let sortSpans = document.querySelectorAll('#sort_tasks span');
 sortSpans.forEach(span => {
   span.addEventListener('click', function () {
     sortSpans.forEach(s => {
