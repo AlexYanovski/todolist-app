@@ -118,7 +118,6 @@ let removeItem = listContainer.addEventListener('click', function (e) {
       }
     }
   }
-  checkAndAddSelectedClass();
 });
 
 //!EventListener Edit task
@@ -259,6 +258,7 @@ sortClearAll.addEventListener('click', function () {
     item.remove('li');
   });
   localStorage.clear();
+  checkAndAddSelectedClass()
 });
 
 ////////////////////////////////////////////////////*UnderLine
