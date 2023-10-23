@@ -94,15 +94,20 @@ let toggleDone = listContainer.addEventListener('click', function (e) {
     if (e.target.classList.contains('done')) {
       editTask.style.backgroundColor = 'rgb(41, 138, 41)';
       editTask.style.color = 'black';
-      listContainer.removeEventListener('click', toggleEditHandler);
+      if (e.target.classList.contains('pending')) {
+        listContainer.removeEventListener('click', toggleEditHandler);
+      }
     } else {
       editTask.style.backgroundColor = '';
       editTask.style.color = '';
-      listContainer.addEventListener('click', toggleEditHandler);
+      if (e.target.classList.contains('pending')) {
+        listContainer.addEventListener('click', toggleEditHandler);
+      }
     }
     saveData();
   }
 });
+
 
 //!EventListener Delete task
 let removeItem = listContainer.addEventListener('click', function (e) {
@@ -125,8 +130,9 @@ function toggleEditHandler(e) {
   if (e.target.classList.contains('edit-task')) {
     let liToEdit = e.target.closest('li');
     if (liToEdit) {
-      e.target.textContent = 'S';
-      let currentText = liToEdit.textContent;
+      if (liToEdit.classList.contains('pending')) { 
+        e.target.textContent = 'S';
+        let currentText = liToEdit.textContent;
       // Save existing "E" and "X" buttons
       let existingEditTask = liToEdit.querySelector('.edit-task');
       let existingDeleteTask = liToEdit.querySelector('.delete-task');
@@ -190,7 +196,7 @@ function toggleEditHandler(e) {
       });
     }
   }
-}
+}}
 listContainer.addEventListener('click', toggleEditHandler);
 
 //////////////////////! EventListener Sort Task List
